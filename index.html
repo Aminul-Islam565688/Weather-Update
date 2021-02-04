@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body,html{
+            height: 100%;
+        }
+
+        .main {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .weather-section {
+            background: #00000080;
+            width: fit-content;
+            margin: auto;
+            border-radius: 10px;
+            padding: 20px 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="container">
+            <form class="col-md-6 m-auto py-5">
+                <div class="input-group mb-3">
+                    <input id="location" list="browsers" type="search" class="form-control"
+                        placeholder="Enter a location for Weather ...">
+
+                    <datalist id="browsers">
+                        <option value="Dhaka"></option>
+                        <option value="Chandpur"></option>
+                        <option value="Chittagong"></option>
+                        <option value="Sylhet"></option>
+                        <option value="Rajshahi"></option>
+                        <option value="Khulna"></option>
+                        <option value="Narayanganj"></option>
+                        <option value="Delhi"></option>
+                        <option value="Moscow"></option>
+                        <option value="California"></option>
+                        <option value="London"></option>
+                        <option value="Paris"></option>
+                        <option value="Tokyo"></option>
+                        <option value="Dubai"></option>
+                        <option value="Singapore"></option>
+                        <option value="Barcelona"></option>
+                        <option value="Florida"></option>
+                        <option value="Madrid"></option>
+                        <option value="Rome"></option>
+                        <option value="Chicago"></option>
+                        <option value="Toronto"></option>
+                        <option value="Budapest"></option>
+                    </datalist>
+
+                    <div class="input-group-append">
+                        <button onclick="weatherSearch()" type="button" class="btn btn-danger">Search</button>
+                    </div>
+                </div>
+            </form>
+            <div class="weather-section weather-status text-white text-center">
+                <img id="Image" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+                <h1 id="City">City</h1>
+                <h3><span id="unit-celcius">00</span>&deg;C</h3>
+                <h1 id="Weather-Condition" class="lead">Clouds</h1>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function weatherSearch() {
+            let city = document.getElementById("location").value;
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=be64c6fce83495778355f23cc7b99b15&units=metric')
+                .then(res => res.json())
+                .then(data => {
+                    const temperature = data.main.temp;
+                    const Weather = data.weather[0].main;
+                    const img = data.weather[0].icon;
+                    document.getElementById("Weather-Condition").innerText = Weather;
+                    document.getElementById("unit-celcius").innerText = temperature;
+                    document.getElementById("City").innerText = city;
+                    document.querySelector(".main").style = 'background:url(images/' + city + '.jpg) 0% 0% / cover'
+                    document.querySelector(".main").style.backgroundPosition = 'center';
+                    document.querySelector(".main").style.height = '100%';
+                    // document.body.style.backgroundSize = "cover";
+                    let weatherImg = document.getElementById("Image").src = "https://openweathermap.org/img/wn/" + img + "@2x.png";
+                    console.log(data);
+                })
+        }
+    </script>
+
+</body>
+
+</html>
